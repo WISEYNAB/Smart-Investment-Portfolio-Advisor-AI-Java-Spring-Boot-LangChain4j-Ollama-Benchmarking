@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    build: src/main/java
+    container_name: stock-advisor
+    ports:
+      - "8080:8080"
+    environment:
+      # Use host machine IP to reach Ollama
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_BASE_URL: "http://host.docker.internal:11434"
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_NAME: "llama3.1:latest"
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_TEMPERATURE: 0.8
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_TIMEOUT: "PT60S"
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_LOG_REQUESTS: true
+      LANGCHAIN4J_OLLAMA_CHAT_MODEL_LOG_RESPONSES: true
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
